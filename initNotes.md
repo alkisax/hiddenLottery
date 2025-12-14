@@ -243,6 +243,20 @@ Server running on http://localhost:3001
 ✅ Prisma = runtime μόνο
 
 ## δημιουργία branch init για να το κάνω import απο άλλα νεα projects
+→ “no fast-forward”.
 git checkout -b init
 git add .
 git commit -m "feat: init with mongo and postgres/prisma/supabase"
+git checkout main
+git merge init --no-ff
+git tag init-infra
+git push origin init-infra
+git push origin main
+git push origin init
+
+
+Πώς το ξαναχρησιμοποιείς σε ΑΛΛΟ project
+git remote add template git@github.com:alkisax/hiddenLottery.git
+git fetch template --tags
+git cherry-pick init-infra
+
