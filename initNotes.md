@@ -259,4 +259,5 @@ git push origin init
 git remote add template git@github.com:alkisax/hiddenLottery.git
 git fetch template --tags
 git cherry-pick init-infra
+.
 
