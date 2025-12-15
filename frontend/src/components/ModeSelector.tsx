@@ -1,3 +1,4 @@
+// frontend\src\components\ModeSelector.tsx
 import { Box, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 
 interface Props {

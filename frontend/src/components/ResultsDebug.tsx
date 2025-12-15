@@ -1,3 +1,4 @@
+// frontend\src\components\ResultsDebug.tsx
 import { Paper, Stack } from "@mui/material";
 import type { SantaResult } from "../types/types";
 

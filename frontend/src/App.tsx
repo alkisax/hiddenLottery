@@ -1,10 +1,13 @@
+// frontend\src\App.tsx
 import { useState } from "react";
 import { Box } from "@mui/material";
-import type { ParticipantDraft, SantaResult } from "./types/types";
+import type { ParticipantDraft } from "./types/types";
+// import type { SantaResult } from "./types/types";
+import { URL } from "./variables/variables";
 import ModeSelector from "./components/ModeSelector";
 import ParticipantsForm from "./components/ParticipantsForm";
-import ResultsDebug from "./components/ResultsDebug";
-import { secretSantaShuffle } from "./utils/secretSantaShuffle";
+// import ResultsDebug from "./components/ResultsDebug";
+// import { secretSantaShuffle } from "./utils/secretSantaShuffle";
 
 const MIN_PARTICIPANTS = 3;
 
@@ -17,9 +20,13 @@ const App = () => {
     { name: "", email: "" },
   ]);
 
-  const [results, setResults] = useState<SantaResult[] | null>(null);
+  // const [results, setResults] = useState<SantaResult[] | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const isSanta = mode === "secret_santa";
+
+  const url = URL;
 
   // βασικό CRUD συμμετεχόντων
   const handleEmailChange = (index: number, value: string) => {
@@ -44,21 +51,54 @@ const App = () => {
 
   const removeParticipant = (index: number) => {
     setParticipants((prev) =>
-      prev.length > MIN_PARTICIPANTS
-        ? prev.filter((_, i) => i !== index)
-        : prev
+      prev.length > MIN_PARTICIPANTS ? prev.filter((_, i) => i !== index) : prev
     );
   };
 
-  const handleSubmit = () => {
-    const validParticipants = participants.filter(
-      (p) => p.email.trim() !== ""
-    );
+  // έτσι ήταν οταν το χρησιμοποιούσαμε για να κάνουμε τον υπολογισμο στο front και να δείξουμε τα αποτελέσματα στην οθόνη (οχι κρυφα)
+  // const handleSubmit = () => {
+  //   const validParticipants = participants.filter((p) => p.email.trim() !== "");
+
+  //   if (validParticipants.length < MIN_PARTICIPANTS) return;
+
+  //   const santaResults = secretSantaShuffle(validParticipants);
+  //   setResults(santaResults);
+  // };
+
+  const handleSubmit = async () => {
+    const validParticipants = participants.filter((p) => p.email.trim() !== "");
 
     if (validParticipants.length < MIN_PARTICIPANTS) return;
 
-    const santaResults = secretSantaShuffle(validParticipants);
-    setResults(santaResults);
+    try {
+      setIsSubmitting(true);
+      setSuccessMessage(null);
+
+      const res = await fetch(`${url}/api/santa/run`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          participants: validParticipants,
+        }),
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to create Secret Santa");
+      }
+
+      // TEMP FRONTEND LOG (DEBUG ONLY)
+      console.log("[FRONTEND] Secret Santa payload:", validParticipants);
+      console.log("[FRONTEND] Backend response OK");
+
+      setSuccessMessage("🎅 Secret Santa created. Check your mails!!!");
+    } catch (err) {
+      console.error(err);
+      setSuccessMessage("❌ Something went wrong. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -81,10 +121,25 @@ const App = () => {
           onAdd={addParticipant}
           onRemove={removeParticipant}
           onSubmit={handleSubmit}
+          isSubmitting={isSubmitting}
         />
       )}
 
-      {results && <ResultsDebug results={results} />}
+      {/* {results && <ResultsDebug results={results} />} */}
+      {successMessage && (
+        <Box
+          sx={{
+            mt: 4,
+            p: 2,
+            borderRadius: 1,
+            bgcolor: "#e8f5e9",
+            color: "#2e7d32",
+            fontWeight: 500,
+          }}
+        >
+          {successMessage}
+        </Box>
+      )}
     </Box>
   );
 };

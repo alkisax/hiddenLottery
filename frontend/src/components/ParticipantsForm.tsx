@@ -1,3 +1,4 @@
+// frontend\src\components\ParticipantsForm.tsx
 import {
   Box,
   Paper,
@@ -17,6 +18,7 @@ interface Props {
   onAdd: () => void;
   onRemove: (index: number) => void;
   onSubmit: () => void;
+  isSubmitting: boolean;
 }
 
 const ParticipantsForm = ({
@@ -27,6 +29,7 @@ const ParticipantsForm = ({
   onAdd,
   onRemove,
   onSubmit,
+  isSubmitting,
 }: Props) => {
   return (
     <Paper
@@ -79,7 +82,7 @@ const ParticipantsForm = ({
         </Box>
 
         <Box textAlign="right">
-          <IconButton onClick={onSubmit}>🎁</IconButton>
+          <IconButton onClick={onSubmit} disabled={isSubmitting}>🎁</IconButton>
         </Box>
       </Stack>
     </Paper>
