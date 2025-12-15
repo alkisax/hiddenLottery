@@ -877,3 +877,76 @@ ssh root@49.12.76.128
 cd /var/www && cd eshopProject && git pull origin main && cd frontend && npm install --legacy-peer-deps && npm run build && cd ../backend && npm install && npm run build && pm2 list && pm2 restart eshop-backend --update-env && nginx -t && systemctl reload nginx && sleep 5 && curl http://localhost:3004/api/ping; echo
 ```
 
+# hiddenlottery deploy
+## Namecheap → Advanced DNS
+| Type | Host            | Value          | TTL       |
+| ---- | --------------- | -------------- | --------- |
+| A    | `hiddenlottery` | `49.12.76.128` | Automatic |
+
+
+cd /var/www
+git clone https://github.com/alkisax/hiddenLottery.git hiddenlottery
+cd hiddenlottery
+
+cd backend
+npm install
+
+nano .env
+
+npx prisma generate
+(δεν ξερω γιατι χριάστικε)
+npm install --save-dev copyfiles
+
+npm run build
+
+pm2 start build/src/server.js --name hiddenlottery-backend
+
+curl http://localhost:3005/api/ping
+
+nano /etc/nginx/sites-available/hiddenlottery.portfolio-projects.space
+
+server {
+  listen 80;
+  server_name hiddenlottery.portfolio-projects.space;
+
+  # API → Node backend
+  location /api/ {
+    proxy_pass http://localhost:3005;
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection 'upgrade';
+    proxy_set_header Host $host;
+    proxy_cache_bypass $http_upgrade;
+  }
+
+  # Frontend (θα το βάλουμε στο επόμενο βήμα)
+  location / {
+    root /var/www/hiddenlottery/frontend/dist;
+    index index.html;
+    try_files $uri $uri/ /index.html;
+  }
+}
+
+ln -s /etc/nginx/sites-available/hiddenlottery.portfolio-projects.space \
+       /etc/nginx/sites-enabled/
+
+nginx -t
+systemctl reload nginx
+
+curl http://hiddenlottery.portfolio-projects.space/api/ping
+
+---
+cd /var/www/hiddenlottery/frontend
+npm install
+
+npm run build
+
+ls dist
+
+---
+
+sudo certbot --nginx -d hiddenlottery.portfolio-projects.space
+systemctl reload nginx
+
+curl https://hiddenlottery.portfolio-projects.space/api/ping
+
