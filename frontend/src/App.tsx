@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Box } from "@mui/material";
 import type { ParticipantDraft } from "./types/types";
 import { URL } from "./variables/variables";
+import { MODE_BACKGROUNDS } from "./variables/variables";
 import ModeSelector from "./components/ModeSelector";
 import SantaParticipantsForm from "./components/SantaParticipantsForm";
 import TwoGroupsForm from "./components/TwoGroupsForm";
@@ -117,6 +118,16 @@ const App = () => {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
+
+        backgroundImage: MODE_BACKGROUNDS[mode]
+          ? `url(${MODE_BACKGROUNDS[mode]})`
+          : "none",
+
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+
+        transition: "background-image 0.4s ease",
       }}
     >
       <ModeSelector mode={mode} onChange={setMode} />

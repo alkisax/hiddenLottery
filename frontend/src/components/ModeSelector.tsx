@@ -17,12 +17,23 @@ const ModeSelector = ({ mode, onChange }: Props) => {
       }}
     >
       <FormControl sx={{ minWidth: 240 }}>
-        <InputLabel id="mode-label">Mode</InputLabel>
+        <InputLabel
+          id="mode-label"
+          sx={{
+            backgroundColor: "#fff",
+            px: 1,
+          }}
+        >
+          Mode
+        </InputLabel>
         <Select
           labelId="mode-label"
           value={mode}
           label="Mode"
           onChange={(e) => onChange(e.target.value)}
+          sx={{
+            backgroundColor: "#fff",
+          }}
         >
           <MenuItem value="">
             <em>—</em>
