@@ -8,6 +8,7 @@ import type { Request, Response } from 'express';
 // import type { NextFunction } from 'express';
 import path from 'path';
 import userRoutes from './users/user.routes';
+import santaRoutes from './santa/santa.routes';
 
 const app = express();
 
@@ -31,6 +32,7 @@ app.get('/health', (_req, res) => {
 });
 
 app.use('/api/users', userRoutes);
+app.use('/api/santa', santaRoutes);
 
 app.use(express.static('dist')); 
 
