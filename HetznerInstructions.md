@@ -950,3 +950,6 @@ systemctl reload nginx
 
 curl https://hiddenlottery.portfolio-projects.space/api/ping
 
+git checkout main
+git merge wip
+git push origin main
