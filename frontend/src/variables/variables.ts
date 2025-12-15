@@ -1,2 +1,2 @@
 // frontend\src\variables\variables.ts
-export const URL = 'http://localhost:3001'
+export const URL = import.meta.env.VITE_BACKEND_URL
