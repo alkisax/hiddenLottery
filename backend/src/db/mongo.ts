@@ -1,3 +1,4 @@
+// backend\src\db\mongo.ts
 import mongoose from 'mongoose';
 
 export const connectMongo = async () => {

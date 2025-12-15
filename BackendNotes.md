@@ -1,3 +1,64 @@
+# init backend with mongo and postgress
+```ts
+// backend\src\prisma\client.ts
+import 'dotenv/config'
+import { PrismaPg } from '@prisma/adapter-pg'
+import { PrismaClient } from '../../generated/prisma/client'
+
+const adapter = new PrismaPg({
+  connectionString: process.env.DATABASE_URL!,
+})
+
+export const prisma = new PrismaClient({ adapter })
+```
+
+```ts
+// backend\src\db\postgres.ts
+import { prisma } from '../prisma/client';
+
+export const connectPostgres = async () => {
+  await prisma.$connect();
+  console.log('Connected to PostgreSQL (Prisma)');
+};
+```
+
+```ts
+// backend\src\db\mongo.ts
+import mongoose from 'mongoose';
+
+export const connectMongo = async () => {
+  if (!process.env.MONGODB_URI) return;
+
+  mongoose.set('strictQuery', false);
+  await mongoose.connect(process.env.MONGODB_URI);
+  console.log('Connected to MongoDB');
+};
+```
+
+```ts
+// backend\src\server.ts
+import dotenv from 'dotenv';
+dotenv.config();
+
+import app from './app';
+import { connectMongo } from './db/mongo';
+import { connectPostgres } from './db/postgres';
+
+const PORT = process.env.BACK_END_PORT || 3001;
+
+const start = async () => {
+  await connectPostgres();
+  await connectMongo(); 
+
+  app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
+  });
+};
+
+start();
+```
+
+```ts
 // backend\src\app.ts
 /* eslint-disable quotes */
 /* eslint-disable no-console */
@@ -49,3 +110,4 @@ app.get(/^\/(?!api|api-docs).*/, (_req, res) => {
 });
 
 export default app;
+```

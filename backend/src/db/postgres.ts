@@ -1,3 +1,4 @@
+// backend\src\db\postgres.ts
 import { prisma } from '../prisma/client';
 
 export const connectPostgres = async () => {
