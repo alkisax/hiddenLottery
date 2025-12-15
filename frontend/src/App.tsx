@@ -2,10 +2,14 @@
 import { useState } from "react";
 import { Box } from "@mui/material";
 import type { ParticipantDraft } from "./types/types";
-// import type { SantaResult } from "./types/types";
 import { URL } from "./variables/variables";
 import ModeSelector from "./components/ModeSelector";
-import ParticipantsForm from "./components/ParticipantsForm";
+import SantaParticipantsForm from "./components/SantaParticipantsForm";
+import TwoGroupsForm from "./components/TwoGroupsForm";
+import NGroupsForm from "./components/NGroupsForm";
+import NSizeGroupsForm from "./components/NSizeGroupsForm";
+import AssignTasksForm from "./components/AssignTasksForm";
+// import type { SantaResult } from "./types/types";
 // import ResultsDebug from "./components/ResultsDebug";
 // import { secretSantaShuffle } from "./utils/secretSantaShuffle";
 
@@ -25,6 +29,11 @@ const App = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const isSanta = mode === "secret_santa";
+  const isTwoGroups = mode === "two_groups";
+  const isNGroups = mode === "n_groups";
+  const isNSizeGroups = mode === "nsize_groups";
+  const isCouples = mode === "couples";
+  const isAssignTasks = mode === "assign_tasks";
 
   const url = URL;
 
@@ -113,7 +122,7 @@ const App = () => {
       <ModeSelector mode={mode} onChange={setMode} />
 
       {isSanta && (
-        <ParticipantsForm
+        <SantaParticipantsForm
           participants={participants}
           minParticipants={MIN_PARTICIPANTS}
           onNameChange={handleNameChange}
@@ -124,6 +133,12 @@ const App = () => {
           isSubmitting={isSubmitting}
         />
       )}
+
+      {isTwoGroups && <TwoGroupsForm />}
+      {isNGroups && <NGroupsForm />}
+      {isNSizeGroups && <NSizeGroupsForm />}
+      {isCouples && <NSizeGroupsForm />}
+      {isAssignTasks && <AssignTasksForm />}
 
       {/* {results && <ResultsDebug results={results} />} */}
       {successMessage && (

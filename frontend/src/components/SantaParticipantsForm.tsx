@@ -21,7 +21,7 @@ interface Props {
   isSubmitting: boolean;
 }
 
-const ParticipantsForm = ({
+const SantaParticipantsForm = ({
   participants,
   minParticipants,
   onNameChange,
@@ -89,4 +89,4 @@ const ParticipantsForm = ({
   );
 };
 
-export default ParticipantsForm;
+export default SantaParticipantsForm;

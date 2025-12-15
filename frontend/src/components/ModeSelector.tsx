@@ -28,6 +28,13 @@ const ModeSelector = ({ mode, onChange }: Props) => {
             <em>—</em>
           </MenuItem>
           <MenuItem value="secret_santa">Secret Santa</MenuItem>
+          <MenuItem value="two_groups">Split into two teams</MenuItem>
+          <MenuItem value="n_groups">Split into N teams</MenuItem>
+          <MenuItem value="nsize_groups">
+            Split into groups of fixed size
+          </MenuItem>
+          <MenuItem value="couples">Split into couples</MenuItem>
+          <MenuItem value="assign_tasks">Assign tasks</MenuItem>
         </Select>
       </FormControl>
     </Box>

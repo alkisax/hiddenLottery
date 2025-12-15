@@ -7,3 +7,7 @@ export type SantaResult = {
   giver: ParticipantDraft;
   receiver: ParticipantDraft;
 };
+
+export interface NameDraft {
+  name: string;
+}

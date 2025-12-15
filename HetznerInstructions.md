@@ -883,28 +883,22 @@ cd /var/www && cd eshopProject && git pull origin main && cd frontend && npm ins
 | ---- | --------------- | -------------- | --------- |
 | A    | `hiddenlottery` | `49.12.76.128` | Automatic |
 
-
+```bash
 cd /var/www
 git clone https://github.com/alkisax/hiddenLottery.git hiddenlottery
 cd hiddenlottery
-
 cd backend
 npm install
-
 nano .env
-
 npx prisma generate
-(δεν ξερω γιατι χριάστικε)
+# (δεν ξερω γιατι χριάστικε)
 npm install --save-dev copyfiles
-
 npm run build
-
 pm2 start build/src/server.js --name hiddenlottery-backend
-
 curl http://localhost:3005/api/ping
-
 nano /etc/nginx/sites-available/hiddenlottery.portfolio-projects.space
-
+```
+```
 server {
   listen 80;
   server_name hiddenlottery.portfolio-projects.space;
@@ -926,30 +920,31 @@ server {
     try_files $uri $uri/ /index.html;
   }
 }
-
+```
+```bash
 ln -s /etc/nginx/sites-available/hiddenlottery.portfolio-projects.space \
        /etc/nginx/sites-enabled/
-
 nginx -t
 systemctl reload nginx
-
 curl http://hiddenlottery.portfolio-projects.space/api/ping
-
----
+# ---
 cd /var/www/hiddenlottery/frontend
 npm install
-
 npm run build
-
 ls dist
-
----
-
+# ---
 sudo certbot --nginx -d hiddenlottery.portfolio-projects.space
 systemctl reload nginx
-
 curl https://hiddenlottery.portfolio-projects.space/api/ping
+```
+- one line deploy
+ssh root@49.12.76.128
+```bash
+cd /var/www && cd hiddenlottery && git pull origin main && cd frontend && npm install && npm run build && cd ../backend && npm install && npx prisma generate && npm run build && pm2 list && pm2 restart hiddenlottery-backend --update-env && nginx -t && systemctl reload nginx && sleep 5 && curl http://localhost:3005/api/ping; echo
+```
 
+
+### synch main with wip
 git checkout main
 git merge wip
 git push origin main
