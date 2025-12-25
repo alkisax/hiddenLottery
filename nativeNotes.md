@@ -1,7 +1,7 @@
 https://www.youtube.com/watch?v=bCpFbERgj7s
 
 ```bash
-npx create-expo-app native-eshop-project
+npx create-expo-app native-app
 npm run reset-project
 
 npm install @react-navigation/native @react-navigation/native-stack
