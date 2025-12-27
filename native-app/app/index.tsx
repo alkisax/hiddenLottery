@@ -6,6 +6,7 @@ import ModeSelector from "@/components/ModeSelector.native";
 import SantaParticipantsForm from "@/components/SantaParticipantsForm.native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { BACKEND_URL } from "@/config/config";
+import { TwoGroupsForm } from "@/components/TwoGroupsForm"
 
 const MIN_PARTICIPANTS = 3;
 
@@ -19,6 +20,7 @@ export default function App() {
   ]);
 
   const isSanta = mode === "secret_santa";
+  const isTwoGroups = mode === "two_groups";
 
   const handleEmailChange = (index: number, value: string) => {
     setParticipants((prev) =>
@@ -80,6 +82,9 @@ export default function App() {
           isSubmitting={false}
         />
       )}
+
+      {isTwoGroups && <TwoGroupsForm />}
+
     </SafeAreaView>
   );
 }

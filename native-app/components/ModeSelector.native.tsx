@@ -15,6 +15,7 @@ export default function ModeSelector({ mode, onChange }: Props) {
       <View style={styles.pickerWrapper}>
         <Picker selectedValue={mode} onValueChange={onChange}>
           <Picker.Item label="Secret Santa" value="secret_santa" />
+          <Picker.Item label="Two Groups" value="two_groups" />
         </Picker>
       </View>
     </View>
