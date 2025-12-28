@@ -1,10 +1,11 @@
 // native-app\components\ModeSelector.native.tsx
 import { View, Text, StyleSheet } from "react-native";
 import { Picker } from "@react-native-picker/picker";
+import type { Mode } from "@/config/modeBackgrounds";
 
 type Props = {
-  mode: string;
-  onChange: (value: string) => void;
+  mode: Mode;
+  onChange: (value: Mode) => void;
 };
 
 export default function ModeSelector({ mode, onChange }: Props) {
@@ -13,7 +14,10 @@ export default function ModeSelector({ mode, onChange }: Props) {
       <Text style={styles.label}>Select mode</Text>
 
       <View style={styles.pickerWrapper}>
-        <Picker selectedValue={mode} onValueChange={onChange}>
+        <Picker
+          selectedValue={mode}
+          onValueChange={(value) => onChange(value as Mode)}
+        >
           <Picker.Item label="Secret Santa" value="secret_santa" />
           <Picker.Item label="Two Groups" value="two_groups" />
           <Picker.Item label="N Groups" value="n_groups" />

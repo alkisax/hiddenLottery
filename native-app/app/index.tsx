@@ -1,6 +1,6 @@
 // native-app\app\index.tsx
 import { useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, ImageBackground } from "react-native";
 import type { ParticipantDraft } from "../types/types";
 import ModeSelector from "@/components/ModeSelector.native";
 import SantaParticipantsForm from "@/components/SantaParticipantsForm.native";
@@ -10,11 +10,13 @@ import TwoGroupsForm from "../components/TwoGroupsForm.native";
 import NGroupsForm from "@/components/NGroupsForm.native";
 import AssignTasksForm from "@/components/AssignTasksForm.native";
 import NSizeGroupsForm from "@/components/NSizeGroupsForm.native";
+import { MODE_BACKGROUNDS } from "@/config/modeBackgrounds";
+import type { Mode } from '@/config/modeBackgrounds'
 
 const MIN_PARTICIPANTS = 3;
 
 export default function App() {
-  const [mode, setMode] = useState<string>("secret_santa");
+  const [mode, setMode] = useState<Mode>("secret_santa");
 
   const [participants, setParticipants] = useState<ParticipantDraft[]>([
     { name: "", email: "" },
@@ -69,6 +71,12 @@ export default function App() {
 
   return (
     <SafeAreaView style={styles.safeArea}>
+      <ImageBackground
+        source={MODE_BACKGROUNDS[mode]}
+        style={styles.background}
+        resizeMode="cover"
+      ></ImageBackground>
+
       <View style={styles.container}>
         <ModeSelector mode={mode} onChange={setMode} />
 
@@ -110,5 +118,8 @@ const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
     backgroundColor: "#fff",
+  },
+  background: {
+    flex: 1,
   },
 });
