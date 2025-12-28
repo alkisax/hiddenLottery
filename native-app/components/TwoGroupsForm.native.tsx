@@ -12,7 +12,7 @@ import { splitIntoTwoGroups } from "../utils/splitIntoTwoGroups";
 
 const MIN_PARTICIPANTS = 2;
 
-export default function TwoGroupsForm() {
+export default function TwoGroupsForm () {
   const [participants, setParticipants] = useState<NameDraft[]>([
     { name: "" },
     { name: "" },
